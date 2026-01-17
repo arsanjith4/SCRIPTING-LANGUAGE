@@ -1,0 +1,69 @@
+						LAB EXERCISES
+
+EX.NO:07
+
+				  UPLOADING FILE TO SERVER USING NODE.JS
+
+AIM:
+
+	To develop a Node.js application to upload a file from the client and store it on the server using the Formidable module.
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Install the required formidable module using NPM.
+	3.Import required Node.js modules such as http, fs, and formidable.
+	4.Create an HTTP server using Node.js.
+	5.Display a file upload form when the server is accessed.
+	6.Accept the uploaded file from the client.
+	7.Store the uploaded file temporarily on the server.
+	8.Move the uploaded file to the required directory.
+	9.Display a success message after the file is uploaded.
+	10.Stop the program.
+
+PROCEDURE:
+
+	1.Open the Node.js Command Prompt.
+	2.Install the formidable module using the command:
+	3.npm install formidable
+	4.Open Notepad and type the Node.js code.
+	5.Save the file as EXNO7.js in the Node.js folder (Example: C:\Users\Student).
+	6.Run the program using the command:
+	7.node EXNO7.js
+	8.Open a web browser and type the URL:
+	9.http://localhost
+	10.Choose a file and click Submit.
+
+PROGRAM:
+
+	File Name: EX-NO-07.js
+
+var http = require('http');
+var formidable = require('formidable');
+var fs = require('fs');
+http.createServer(function (req, res) {
+if (req.url == '/fileupload' && req.method.toLowerCase() == 'post') {
+var form = new formidable.IncomingForm();
+form.parse(req, function (err, fields, files) {
+var oldpath = files.filetoupload[0].filepath;
+var newpath = 'C:/Users/Suresh/' + files.filetoupload[0].originalFilename;
+fs.rename(oldpath, newpath, function (err) {
+if (err) throw err;
+res.write('File uploaded and moved!');
+res.end();
+});
+});
+} else {
+res.writeHead(200, { 'Content-Type': 'text/html' });
+res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
+res.write('<input type="file" name="filetoupload"><br><br>');
+res.write('<input type="submit">');
+res.write('</form>');
+res.end();
+}
+}).listen(8080);
+console.log("Server running at http://localhost");
+
+RESULT:
+
+	Thus, the Node.js program to upload a file to the server using the Formidable module is executed successfully, and the uploaded file is stored in the server directory.

@@ -1,0 +1,46 @@
+                		LAB EXERCISES
+
+EX.NO:01
+
+	 	IMPLEMENTING STRING AND ARRAY FUNCTIONS IN PHP
+
+AIM:
+
+	To write a PHP program to demonstrate five string functions and five array functions.
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Initialize a string variable, perform string operations: length, uppercase, lowercase, reverse, split.
+	3.Display string results.
+	4.Initialize an array with numeric values.
+	5.Perform array operations: count, current element, last element, reverse, sort.
+	6.Save the file in C:\xamp\htdocs\Demo folder for XAMP server, display array results.
+	7.End the program.
+
+
+PROGRAM:
+
+<?php
+// String functions
+$s = "Welcome to PHP";
+echo "The given string is: $s<br>";
+echo "Length: " . strlen($s) . "<br>";
+echo "Uppercase: " . strtoupper($s) . "<br>";
+echo "Lowercase: " . strtolower($s) . "<br>";
+echo "Reversed: " . strrev($s) . "<br>";
+echo "Split into array: "; print_r(str_split($s, 3)); echo "<br><br>";
+// Array functions
+$arr = [33, 11, 44, 16, 25, 89, 92];
+echo "Array elements: "; print_r($arr); echo "<br>";
+echo "Count: " . count($arr) . "<br>";
+echo "Current: " . current($arr) . "<br>";
+echo "Last: " . end($arr) . "<br>";
+echo "Reversed: "; print_r(array_reverse($arr)); echo "<br>";
+sort($arr);
+echo "Sorted: "; print_r($arr);
+?>
+
+RESULT:
+
+	Thus, the above PHP code is executed and the output is obtained.

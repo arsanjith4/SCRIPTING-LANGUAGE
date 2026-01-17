@@ -1,0 +1,131 @@
+						LAB EXERCISES
+
+EX.NO:04
+
+				  VALIDATING USERNAME AND PASSWORD USING PHP
+
+AIM:
+
+	To develop a simple login page that validates the username and password from the database. If valid, the user is redirected to welcome.php displaying their name; otherwise, the login page remains.
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Create a MySQL table users in the college database with columns: username, password, sname.
+	3.Insert sample users into the table.
+	4.Create an HTML login form to collect username and password.
+	5.In PHP, connect to the database and validate the entered credentials.
+	6.If valid, start a session, store the student name, and redirect to welcome.php.
+	7.If invalid, show an error message on the login page, End the program.
+
+PROGRAM:
+
+1) Table creation in MYSQLPHP:
+	
+	•Showing databases:
+
+		mysql> show databases; 
+		Query Ok, 6 rows in set (0.01 sec)
+
+	• Using 'College' database:
+
+		mysql> USE College; 
+		Database changed
+
+	• Creating 'Users' table:
+
+		 CREATE TABLE Users(ID INT AUTO_INCREMENT PRIMARY KEY, UserName VARCHAR(50) UNIQUE, Password VARCHAR(20), Name VARCHAR(50)); 
+		 Query OK, 0 rows affected (0.05 sec) 
+
+	• Inserting rows into table 'Users':
+
+		 mysql> INSERT INTO Users(UserName, Password, Name) VALUES 
+		 ('KPTC1','comp2003@','Malar Kannan'), 
+		 ('KPTC2','comp2004@','Kumar'), 
+		 ('KPTC3', 'comp2005@', 'Prithiv');
+		 Query OK, 3 rows affected (0.00 sec) 
+		 Records: 3 Duplicates: 0 Warnings: 0 
+
+	• Showing 'Users' table contents:
+
+ 		 mysql> SELECT * FROM Users;
+		 3 rows in set(0.00 sec)
+
+2) HTML code for Login page:
+
+	HTML Login Page – EX-NO-04SCRIPTING.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+</head>
+<body>
+<h2>Login</h2>
+<form action="EX-NO-04SCRIPTING.php" method="POST">
+  <label for="UserName">UserName:</label>
+  <input type="text" id="username" name="username" required><br><br>
+  <label for="Password">Password:</label>
+  <input type="Password" id="Password" name="Password" required><br><br>
+  <input type="submit" value="Login">
+</form>
+</body>
+</html>
+
+3) PHP code for getting user data and redirecting to welcome page:
+
+	PHP Script to Validate Login – EX-NO-04SCRIPTING.php
+
+<?php
+session_start();
+// Database connection
+$host = 'localhost';
+$db = 'college';
+$user = 'root';
+$pass = '';
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    // Query to check user
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $_SESSION['sname'] = $row['sname'];
+        header("Location: welcome.php");
+        exit();
+    } else {
+        echo "Invalid username or password. Please try again.";
+    }
+}
+$conn->close();
+?>
+
+4) PHP Code for Welcome Page – welcome.php:
+
+<?php
+session_start();
+$sname = $_SESSION['sname'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome</title>
+</head>
+<body>
+<h2>Welcome, <?php echo $sname; ?>!</h2>
+<p>You have successfully logged in.</p>
+</body>
+</html>
+
+RESULT:
+
+	Thus the above HTML and PHP code are executed and the output is obtained.

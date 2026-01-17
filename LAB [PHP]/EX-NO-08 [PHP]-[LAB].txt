@@ -1,0 +1,64 @@
+							LAB EXERCISES
+
+EX.NO:08
+
+						SENDING EMAIL USING NODE.JS
+
+AIM:
+
+	To develop a Node.js program to send an email using the Node mailer module and a Gmail account with App Password authentication.
+
+ALGORITHM:
+
+	1)Install Node.js and the Nodemailer module.
+	2)Open Command Prompt and run the command:
+	3)npm install nodemailer
+	4)Enable 2-Step Verification for your Gmail account (if not already enabled).
+	5)Generate an App Password from your Google Account settings to be used instead of your regular password.
+	6)Write the Node.js code to send an email using Nodemailer, with your Gmail address and the generated App Password.
+	7)Run the Node.js script from the Command Prompt using:
+	8)node EX-NO-08.js
+	9)Check the recipient’s email inbox to confirm that the email has been received.
+	10)End the program.
+
+PROCEDURE:
+
+	1)Download and install the Nodemailer module using NPM in the Node.js Command Prompt.
+	2)C:\Users\Suresh> npm install nodemailer
+	3)Enter the Node.js code in Notepad and save it as EXNO8.js in your Node.js folder (Example: C:\Users\Student).
+	4)Generate an App Password (for Gmail users):
+
+		i)Go to your Google Account → Security Settings.
+		ii)Enable 2-Step Verification if it is not already enabled.
+		iii)Under the Signing in to Google section, click App Passwords.
+		iv)Generate a password for your Node.js application.
+		v)Use this generated password in the auth.pass field in the Node.js code.
+
+PROGRAM:
+
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+service: 'gmail',
+auth: {
+user: 'your-email@gmail.com', // replace with your Gmail address
+pass: 'your-app-password'     // replace with your generated App Password
+}
+});
+const mailOptions = {
+from: 'your-email@gmail.com',
+to: 'recipient-email@gmail.com', // replace with recipient email
+subject: 'Test Email from Node.js',
+text: 'This is a test email sent using Node.js!',
+html: '<b>This is a test email sent using Node.js!</b>'
+};
+transporter.sendMail(mailOptions, function(error, info){
+if(error){
+console.log('Error occurred:', error.message);
+} else {
+console.log('Email sent successfully:', info.response);
+}
+});
+
+RESULT:
+
+	Thus, the above Node.js program is executed and the output is obtained successfully. 

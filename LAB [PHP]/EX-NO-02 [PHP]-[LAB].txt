@@ -1,0 +1,83 @@
+							LAB EXERCISES
+
+EX.NO:02
+
+					COLLECTING DATA FROM HTML AND PROCESSING IN PHP
+
+AIM:
+
+	To design the HTML form to collect student bio-data and SSLC marks, process the collected data using PHP, and calculate total and average marks.
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Create an HTML form to collect student name, age, and marks for 5 subjects.
+	3.Submit the form data to a PHP script using the POST method.
+	4.In PHP, collect the student name and age.
+	5.Collect the marks into an array, calculate total and average.
+	6.Display the student name, age, total marks, and average marks.
+	7.End the program.
+
+PROGRAM:
+
+1) HTML form to collect student bio-data and SSLC marks:
+
+	HTML Form – EXNO2SCRIPTING.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Biodata Form</title>
+</head>
+<body>
+<h2>Student Biodata and SSLC Marks</h2>
+<form action="EXNO2SCRIPTING.php" method="POST">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" required><br><br>
+<label for="age">Age:</label>
+<input type="number" id="age" name="age" required min="15"><br><br>
+<h3>SSLC Marks</h3>
+<label for="s1">Subject 1:</label>
+<input type="number" id="s1" name="marks[]" required min="0" max="100"><br><br>
+<label for="s2">Subject 2:</label>
+<input type="number" id="s2" name="marks[]" required min="0" max="100"><br><br>
+<label for="s3">Subject 3:</label>
+<input type="number" id="s3" name="marks[]" required min="0" max="100"><br><br>
+<label for="s4">Subject 4:</label>
+<input type="number" id="s4" name="marks[]" required min="0" max="100"><br><br>
+<label for="s5">Subject 5:</label>
+<input type="number" id="s5" name="marks[]" required min="0" max="100"><br><br>
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+2) Processing collected data using PHP:
+
+	PHP Script – EX-NO-02SCRIPTING.php
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Collect biodata
+    $name = htmlspecialchars($_POST['name']);
+    $age = (int)$_POST['age'];
+    // Collect marks and calculate total and average
+    $marks = $_POST['marks'];
+    $total = array_sum($marks);
+    $average = $total / count($marks);
+    // Display results
+    echo "<h2>Student Biodata</h2>";
+    echo "Name: $name<br>";
+    echo "Age: $age<br>";
+    echo "Total Marks: $total<br>";
+    echo "Average Marks: " . number_format($average, 2) . "<br>";
+} else {
+    echo "Invalid request method.";
+}
+?>
+
+RESULT:
+
+	Thus the above HTML and PHP code are executed and the output is obtained.

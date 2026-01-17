@@ -1,0 +1,130 @@
+							LAB EXERCISES
+
+EX.NO:03
+
+						USING PHP AND MYSQL DATABASE
+
+AIM:
+
+	To develop a simple PHP application which displays the result of the student by entering their register number as user input(assuming student marks are already available in the MYSQL database).
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Create a MySQL database college and a table student with columns: Reg_No, Name, M1 to M5.
+	3.Insert student data into the student table.
+	4.Create an HTML form to take register number as input.
+	5.In PHP, connect to the MySQL database.
+	6.Retrieve student details based on the entered register number, calculate total and average marks.
+	7.Display the student name, register number, marks, total, and average. End the program.
+
+
+PROGRAM:
+
+1) Database and Table creation in MYSQLPHP:
+
+	• Creating database 'College':
+
+		mysql> CREATE DATABASE College;
+		Query OK, 1 row affected (0.02 sec)
+
+	• Showing databases:
+
+		mysql> show databases; 
+		Query Ok, 6 rows in set (0.01 sec)
+
+	• Using 'College' database:
+
+		mysql> USE College; 
+		Database changed
+
+	• Creating 'Student' table:
+
+		mysql> CREATE TABLE Student (ID INT AUTO_INCREMENT PRIMARY KEY, Reg_No VARCHAR(50), Name VARCHAR(100), M1 INT, M2 INT, M3 INT, M4 INT, M5 INT); 
+		Query OK, 0 rows affected (0.03 sec) 
+
+	• Inserting rows into table 'Student':
+
+		mysql> INSERT INTO Student (Reg_No,Name,M1,M2,M3,M4, M5) VALUES
+		('COMP1111', 'Lanish', 78, 89, 90, 98, 99), 
+		('COMP1112', 'Jerin', 88,99,90,67,76), 
+		('COMP1113', 'Merin', 97,98,96,95,90), 
+		('COMP1114', 'Janan', 78,89,83,99,93), 
+		('COMP1115', 'Subbu', 67,78,89,90,94); 
+		Query OK, 5 rows affected (0.00 sec) 
+		Records: 5 Duplicates: 0 Warnings: 0 
+
+	• Showing Student table contents:
+
+		mysql> SELECT * FROM Student; 
+		5 rows in set (0.00 sec)
+ 
+2) HTML Form for user input:
+
+	HTML Form – EX-NO-03SCRIPTING.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Result Display</title>
+</head>
+<body>
+<h2>Student Result</h2>
+<form action="EX-NO-03SCRIPTING.php" method="POST">
+<label for="Reg_No">Enter Register Number:</label>
+<input type="text" id="Reg_No" name="Reg_No" required>
+  <input type="submit" value="Get Result">
+</form>
+</body>
+</html>
+
+3) PHP Code to Retrive and Display results:
+
+	PHP Script – EX-NO-03SCRIPTING.php
+
+<?php
+// Database connection parameters
+$host = 'localhost';
+$db = 'College';
+$user = 'root';
+$pass = '';
+// Create connection
+$conn = new mysqli($host, $user, $pass, $db);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Reg_No = $_POST["Reg_No"];
+    // Query to get Student data
+    $sql = "SELECT * FROM Student WHERE Reg_No = '$Reg_No'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $total = $row['M1'] + $row['M2'] + $row['M3'] + $row['M4'] + $row['M5'];
+        $average = $total / 5;
+        // Display student result
+        echo "<h2>Student Result</h2>";
+        echo "Name: " . $row['Name'] . "<br>";
+        echo "Register Number: " . $row['Reg_No'] . "<br>";
+        echo "Marks:<br>";
+        echo "Subject 1: " . $row['M1'] . "<br>";
+        echo "Subject 2: " . $row['M2'] . "<br>";
+        echo "Subject 3: " . $row['M3'] . "<br>";
+        echo "Subject 4: " . $row['M4'] . "<br>";
+        echo "Subject 5: " . $row['M5'] . "<br>";
+        echo "Total Marks: " . $total . "<br>";
+        echo "Average Marks: " . number_format($average, 2) . "<br>";
+    } else {
+        echo "No student found with the given registration number.";
+    }
+}
+// Close the connection
+$conn->close();
+?>
+
+RESULT:
+
+	Thus the above HTML and PHP code are executed and the output is obtained.

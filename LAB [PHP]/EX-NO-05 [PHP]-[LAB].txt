@@ -1,0 +1,54 @@
+					LAB EXERCISES
+
+EX.NO:05
+
+					USING JQUERY
+
+AIM:
+
+	To write a code using jQuery to disable the right-click (context menu) option on a webpage.
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Create an HTML document structure with <html>, <head>, and <body> tags.
+	3.Include the <head> section in the HTML file.
+	4.Add meta tags for character set (UTF-8) and viewport for responsive design.
+	5.Include the jQuery library using a CDN link inside the <head> section.
+	6.Add a <script> tag to write the jQuery code.
+	7.Use $(document).ready() to ensure the DOM is fully loaded before running the script.
+	8.Detect the right-click event using the contextmenu event in jQuery.
+	9.Prevent the default right-click menu using event.preventDefault().
+	10.Display an alert message when the user attempts to right-click.
+	11.End the program.
+
+PROGRAM: 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disable Right Click</title>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(document).on("contextmenu", function (e) {
+                e.preventDefault();
+                alert("Right-click is disabled on this webpage.");
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Right Click Disabled Example</h1>
+    <p>Try right-clicking anywhere on this page!</p>
+</body>
+</html>
+
+RESULT:
+
+	Thus, the above program using jQuery is executed successfully, and the right-click option is disabled on the webpage. 

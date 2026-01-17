@@ -1,0 +1,143 @@
+							LAB EXERCISES
+
+EX.NO:06
+
+							  USING AJAX
+
+AIM:
+
+	To develop a simple application which displays details of the college by getting college code as input using AJAX without reloading the page (assuming college details like code, name, courses_offered, address, hostel facility, etc., are already available in the database).
+
+ALGORITHM:
+
+	1.Start the program.
+	2.Create a MySQL database named college.
+	3.Create a table colleges with the required fields.
+	4.Insert sample college records into the table.
+	5.Create an HTML page to accept the college code from the user.
+	6.Design the input form and result display area using HTML and CSS.
+	7.Use JavaScript and AJAX to send the entered college code to the server.
+	8.Create a PHP file to receive the AJAX request.
+	9.Retrieve college details from the database using the given college code.
+	10.Return the fetched data in JSON format.
+	11.Display the result on the web page without reloading it.
+	12.End the program.
+
+
+PROGRAM:
+
+1) Database and Table Creation (MySQL):
+
+	• Using 'College' database:
+
+		 mysql> USE College; 
+		 Database changed
+
+	• Creating 'Colleges' table:
+
+		 CREATE TABLE Colleges (Code INT PRIMARY KEY, Name VARCHAR(50), Courses_Offered TEXT, Address VARCHAR(50), Hostel_Facility BOOLEAN);
+ 		 Query OK, 0 rows affected (0.05 sec) 
+
+	• Inserting rows into table 'Colleges':
+
+	 mysql> INSERT INTO colleges VALUES
+	(1001, 'ABC Polytechnic College', 'Civil, Mech, EEE, ECE, Computer', 'Trichy', TRUE),
+	(1002, 'XYZ Polytechnic College', 'Civil, Mech, EEE, Computer, Auto', 'Madurai', TRUE),
+	(1003, 'Vetti Polytechnic College', 'Mech, Biomedical, EEE, Computer', 'Nagercoil', FALSE);
+
+	•  Showing 'Colleges' table contents:
+
+	mysql> SELECT * FROM Colleges;
+	3 rows in set (0.00 sec)
+
+2) HTML + AJAX Code:
+
+	File Name: EX-NO-06SCRIPTING.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Details</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Get College Details</h1>
+<form id="cform">
+    <label>Enter College Code:</label>
+    <input type="text" id="ccode" required>
+    <button type="submit">Get Details</button>
+</form>
+<div id="result" class="result"></div>
+<script>
+document.getElementById("cform").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let ccode = document.getElementById("ccode").value;
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "EX-NO-06SCRIPTING.php?ccode=" + ccode, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                resultDiv.innerHTML = "<p class='error'>" + response.error + "</p>";
+            } else {
+                resultDiv.innerHTML = `
+                    <h2>${response.name}</h2>
+                    <p><strong>Code:</strong> ${response.code}</p>
+                    <p><strong>Courses Offered:</strong> ${response.courses_offered}</p>
+                    <p><strong>Address:</strong> ${response.address}</p>
+                    <p><strong>Hostel Facility:</strong> 
+                    ${response.hostel_facility == 1 ? "Available" : "Not Available"}</p>
+                `;
+            }
+        }
+    };
+    xhr.send();
+});
+</script>
+</body>
+</html>
+
+3) PHP Code:
+
+	File Name: EX-NO-06SCRIPTING.php
+
+<?php
+header("Content-Type: application/json");
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db = "college";
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_error) {
+    echo json_encode(["error" => "Database connection failed"]);
+    exit;
+}
+$ccode = $_GET['ccode'];
+$sql = "SELECT * FROM colleges WHERE code = '$ccode'";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    echo json_encode($result->fetch_assoc());
+} else {
+    echo json_encode(["error" => "No college found with the given code"]);
+}
+$conn->close();
+?>
+
+RESULT:
+
+	Thus, the above HTML and PHP code AJAX application is executed successfully and the output is obtained.
