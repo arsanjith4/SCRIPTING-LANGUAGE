@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Details</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Get College Details</h1>
+
+<form id="cform">
+    <label>Enter College Code:</label>
+    <input type="text" id="ccode" required>
+    <button type="submit">Get Details</button>
+</form>
+
+<div id="result" class="result"></div>
+
+<script>
+document.getElementById("cform").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let ccode = document.getElementById("ccode").value;
+    let resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "EX-NO-06-(SCRIPTING).php?ccode=" + ccode, true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+
+            if (response.error) {
+                resultDiv.innerHTML = "<p class='error'>" + response.error + "</p>";
+            } else {
+                resultDiv.innerHTML = `
+                    <h2>${response.Name}</h2>
+					<p><strong>Code:</strong> ${response.Code}</p>
+					<p><strong>Courses Offered:</strong> ${response.Courses_Offered}</p>
+					<p><strong>Address:</strong> ${response.Address}</p>
+					<p><strong>Hostel Facility:</strong> 
+					${response.Hostel_Facility == 1 ? "Available" : "Not Available"}</p>
+                `;
+            }
+        }
+    };
+
+    xhr.send();
+});
+</script>
+
+</body>
+</html>
